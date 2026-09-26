@@ -1,4 +1,3 @@
-// let todos = ['Go to gym','revision web dev','take class']
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
 const todoList = document.querySelector("#todo-list");
@@ -78,26 +77,9 @@ function renderTodo() {  //render
         todoList.append(li)
     })
     taskCount.textContent = `TASK:${todos.length}`
-    completeCount.text = `COMPLETED:${todos.filter((todo) => todo.isCompleted).length}`
+    completeCount.textContent = `COMPLETED:${todos.filter((todo) => todo.isCompleted).length}`
 }
 renderTodo()
-
-// function addTodo(todo) {
-//     const li = document.createElement("li")
-//     li.className = "flex gap-2 border border-slate-300 p-4 rounded-xl"
-//     li.dataset.id = todo.id
-
-//     li.innerHTML = `<input data-action="toogle" data-id=${todo.id} ${todo.isCompleted === true ? 'checked' : ""} type="checkbox">
-//                 <p class="flex-1 ${todo.isCompleted ? "line-through text-red-400" : ""}">${todo.text}</p>
-//                 <div class="flex gap-2">
-//                     <button data-action="edit" data-id=${todo.id}>Edit</button>
-//                     <button data-action="delete" data-id=${todo.id}>Delete</button>
-//                 </div>`
-//     todoList.append(li)
-// }
-// taskCount.textContent = `TASK:${todos.length}`
-// completeCount.text = `COMPLETED:${todos.filter((todo) => todo.isCompleted).length}`
-// renderTodo()
 
 todoList.addEventListener('click', (e) => {
     e.stopPropagation()
@@ -105,23 +87,22 @@ todoList.addEventListener('click', (e) => {
     const id = li.dataset.id;
     let action = e.target.dataset.action;
     
-    // let checkbox = e.target.closest('input[type="checkbox"]')
-    // console.log(checkbox)
+   
 
     if (action === "edit") {
-        // console.log("editing..")
+      
         startEdit(id)
 
     }
 
     if (action === "delete") {
-        // console.log("deleting....")
+       
         deleteTodo(id)
 
 
     }
     if (action === "toogle") {
-        // console.log(action);
+       
         todos = todos.map((todo) => {
             if (todo.id === Number(id)) {
                 return {
@@ -139,7 +120,7 @@ todoList.addEventListener('click', (e) => {
 
 function deleteTodo(id) {
 todos = todos.filter((todo) => {
-        // console.log(id)
+      
         if (todo.id !== Number(id)) {
             return todo
         }

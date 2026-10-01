@@ -8,23 +8,7 @@ const cancelBtn = document.querySelector("#cancel-btn");
 
 
 
-let todos = [
-    {
-        id: Date.now() + 1,
-        text: "go to gym",
-        isCompleted: false
-    },
-    {
-        id: Date.now() + 2,
-        text: "revision web dev",
-        isCompleted: true
-    },
-    {
-        id: Date.now() + 3,
-        text: "take a class",
-        isCompleted: false
-    }
-]
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
 
 let editTodoId = null;
 todoForm.addEventListener('submit', (e) => {
@@ -47,6 +31,7 @@ todoForm.addEventListener('submit', (e) => {
             }
             return todo
         })
+        localStorage.setItem("todos", JSON.stringify(todos));
     } else {
         let newTodo = {
             id: Date.now(),
@@ -54,6 +39,7 @@ todoForm.addEventListener('submit', (e) => {
             isCompleted: false
         }
         todos.push(newTodo)
+        localStorage.setItem("todos", JSON.stringify(todos));
     }
     cancelEdit();
     renderTodo()
@@ -86,17 +72,15 @@ todoList.addEventListener('click', (e) => {
     const li = e.target.closest('li')
     const id = li.dataset.id;
     let action = e.target.dataset.action;
-    
-   
 
     if (action === "edit") {
-      
+ 
         startEdit(id)
 
     }
 
     if (action === "delete") {
-       
+      
         deleteTodo(id)
 
 
@@ -112,6 +96,7 @@ todoList.addEventListener('click', (e) => {
             }
             return todo
         })
+        localStorage.setItem("todos", JSON.stringify(todos));
         renderTodo()
     }
 
@@ -119,12 +104,13 @@ todoList.addEventListener('click', (e) => {
 })
 
 function deleteTodo(id) {
-todos = todos.filter((todo) => {
-      
+    todos = todos.filter((todo) => {
+
         if (todo.id !== Number(id)) {
             return todo
         }
     })
+    localStorage.setItem("todos", JSON.stringify(todos));
     renderTodo()
 }
 
@@ -138,20 +124,20 @@ function startEdit(id) {
     })
     todoInput.value = currentTodo.text
     formBtn.textContent = "Update"
-    formBtn.className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition-colors cursor-pointer";
+    formBtn.className = "px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition-colors cursor-pointer";
 
     cancelBtn.classList.remove("hidden");
 }
 
-function cancelEdit(){
+function cancelEdit() {
     editTodoId = null;
 
     todoInput.value = "";
-    
-    formBtn.textContent="Add";
 
-    formBtn.className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors cursor-pointer";
+    formBtn.textContent = "Add";
+
+    formBtn.className = "px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors cursor-pointer";
 }
-cancelBtn.addEventListener('click',()=>{
+cancelBtn.addEventListener('click', () => {
     cancelEdit();
 })
